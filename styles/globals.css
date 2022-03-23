@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .intent {
+    @apply flex items-center justify-between hover:shadow-custom p-4 cursor-pointer rounded-lg text-black  max-w-md mx-auto xl:mx-0 border-[0.5px] border-gray-300;
+  }
+}
+
+@layer base {
+  body {
+    @apply bg-zinc-50;
+  }
+}
