@@ -12,4 +12,12 @@
   body {
     @apply bg-zinc-50;
   }
+
+  .sidebarButton {
+    @apply border-t dark:border-gray-600 border-gray-400  py-3 px-4 cursor-pointer opacity-80 hover:opacity-100;
+  }
+
+  .sidebarLinks {
+    @apply text-[13px] font-medium text-blue-500 hover:underline cursor-pointer px-2.5;
+  }
 }
