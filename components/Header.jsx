@@ -39,11 +39,11 @@ const Header = () => {
             {resolvedTheme === "dark" ? (
               <Image src={logoLight} width={45} height={45} />
             ) : (
-              <Image src={logoDark} width={55} height={55} />
+              <Image src={logoDark} width={45} height={45} />
             )}
           </>
         )}
-        <div className="flex space-x-1 dark:md:bg-gray-700 py-2.5 px-4 rounded w-full">
+        <div className="flex space-x-1 bg-zinc-100 dark:md:bg-gray-700 py-2.5 px-4 rounded w-full">
           <SearchRoundedIcon />
           <input
             type="text"
@@ -68,6 +68,9 @@ const Header = () => {
             className={`bg-gray-600 flex items-center px-0.5 rounded-full h-6 w-12 cursor-pointer flex-shrink-0 relative ${
               resolvedTheme === "dark" ? "justify-end" : "justify-start "
             }`}
+            onClick={() =>
+              setTheme(resolvedTheme === "dark" ? "light" : "dark")
+            }
           >
             <span className="absolute left-0">🌜</span>
             <motion.div
