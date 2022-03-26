@@ -4,6 +4,10 @@ import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import { useRouter } from "next/router";
 import Feed from "../components/Feed";
+import { AnimatePresence } from "framer-motion";
+import Modal from "../components/Modal";
+import { useRecoilState } from "recoil";
+import { modalState, modalTypeState } from "../atoms/modalAtom";
 
 export default function Home() {
   const router = useRouter();
@@ -13,6 +17,10 @@ export default function Home() {
       router.push("/home");
     },
   });
+
+  const [modalOpen, setModalOpen] = useRecoilState(modalState);
+  const [modalType, setModalType] = useRecoilState(modalTypeState);
+
   return (
     <div className="bg-[#F3F2eF] dark:bg-black/90 dark:text-white/90 h-screen overflow-y-scroll md:space-y-6">
       <Head>
@@ -29,8 +37,12 @@ export default function Home() {
           <Feed />
         </div>
         {/* widgets */}
+        <AnimatePresence>
+          {modalOpen && (
+            <Modal handleClose={() => setModalOpen(false)} type={modalType} />
+          )}
+        </AnimatePresence>
       </main>
-
       {/* footer */}
     </div>
   );
