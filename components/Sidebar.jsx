@@ -6,6 +6,8 @@ import BookmarkOutlinedIcon from "@mui/icons-material/BookmarkOutlined";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 
 const Sidebar = () => {
+  const { data: session } = useSession();
+
   return (
     <div className="space-y-2 min-w-max max-w-lg">
       {/* top */}
@@ -14,16 +16,16 @@ const Sidebar = () => {
           <Image src={bgImg} layout="fill" priority />
         </div>
         <Avatar
-          //   onClick={signOut}
-          //   src={logo}
-          className="!h-14 !w-14 !border-2 !absolute !top-4 !cursor-pointer"
+          onClick={signOut}
+          src={session?.user?.image}
+          className="!h-14 !w-14 !border-[1px] !absolute !top-4 !cursor-pointer"
         />
         <div className="mt-5 py-4 space-y-0.5">
           <h4 className="hover:underline decoration-purple-700 underline-offset-1 cursor-pointer">
-            Tarun Sharma
+            {session?.user?.name}
           </h4>
           <p className="text-black/60 dark:text-white/75 text-sm ">
-            tarunsharma8920@gmail.com
+            {session?.user?.email}
           </p>
         </div>
 
@@ -58,7 +60,7 @@ const Sidebar = () => {
         <p className="sidebarLinks">Groups</p>
         <div className="flex justify-between items-center">
           <p className="sidebarLinks">Events</p>
-          <AddRoundedIcon className="!h-5" />
+          <AddRoundedIcon className="!h-5 !cursor-pointer" />
         </div>
         <p className="sidebarLinks">Followed Hashtags</p>
         <div className="sidebarButton text-center">
