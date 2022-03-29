@@ -8,8 +8,9 @@ import { AnimatePresence } from "framer-motion";
 import Modal from "../components/Modal";
 import { useRecoilState } from "recoil";
 import { modalState, modalTypeState } from "../atoms/modalAtom";
+import { connectToDatabase } from "../util/mongodb";
 
-export default function Home() {
+export default function Home({ posts }) {
   const router = useRouter();
   const { status } = useSession({
     required: true,
@@ -34,7 +35,7 @@ export default function Home() {
       <main className="flex justify-center gap-x-5 px-4 sm:px-12">
         <div className="flex flex-col md:flex-row gap-5">
           <Sidebar />
-          <Feed />
+          <Feed posts={posts} />
         </div>
         {/* widgets */}
         <AnimatePresence>
@@ -59,9 +60,28 @@ export const getServerSideProps = async (context) => {
       },
     };
 
+  // get posts on ssr:
+  const { db } = await connectToDatabase();
+  const posts = await db
+    .collection("posts")
+    .find()
+    .sort({ timstamp: -1 })
+    .toArray();
+
+  // get google api news:
+
   return {
     props: {
       session,
+      posts: posts.map((post) => ({
+        _id: post._id.toString(),
+        input: post.input,
+        photoUrl: post.photoUrl,
+        username: post.username,
+        email: post.email,
+        userImg: post.image,
+        createdAt: post.createdAt,
+      })),
     },
   };
 };

@@ -1,6 +1,6 @@
 // next.config.js
 module.exports = {
   images: {
-    domains: ["rb.gy"],
+    domains: ["www.elegantthemes.com"],
   },
 };
