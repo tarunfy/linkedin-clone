@@ -26,7 +26,7 @@ const Form = () => {
       />
 
       <button
-        className="absolute bottom-0 right-0 bg-blue-400 hover:bg-blue-500 disabled:text-black/40 disabled:bg-white/75 disabled:cursor-not-allowed text-white rounded-full px-3.5 py-1"
+        className="absolute bottom-0 right-0 bg-blue-400 hover:bg-blue-500 disabled:text-black/40 disabled:dark:bg-white/75 disabled:bg-black/20 disabled:cursor-not-allowed text-white rounded-full px-3.5 py-1"
         disabled={!input.trim() && !photoUrl.trim()}
         type="submit"
         onClick={uploadPost}
