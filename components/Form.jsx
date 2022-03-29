@@ -1,11 +1,36 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
+import { useSession } from "next-auth/react";
+import { useRecoilState } from "recoil";
+import { modalState } from "../atoms/modalAtom";
 
 const Form = () => {
+  const [modalOpen, setModalOpen] = useRecoilState(modalState);
   const [input, setInput] = useState("");
   const [photoUrl, setPhotoUrl] = useState("");
+  const { data: session } = useSession();
 
   const uploadPost = async (e) => {
     e.preventDefault();
+
+    const res = await fetch("/api/posts", {
+      method: "POST",
+      body: JSON.stringify({
+        input,
+        photoUrl,
+        username: session.user.name,
+        email: session.user.email,
+        image: session.user.image,
+        createdAt: new Date().toString(),
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const resData = await res.json();
+
+    console.log(resData);
+    setModalOpen(false);
   };
   return (
     <form className="flex flex-col relative space-y-2 text-black/80 dark:text-white/75">
