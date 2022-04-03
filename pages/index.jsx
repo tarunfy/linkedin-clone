@@ -6,11 +6,12 @@ import { useRouter } from "next/router";
 import Feed from "../components/Feed";
 import { AnimatePresence } from "framer-motion";
 import Modal from "../components/Modal";
+import Widgets from "../components/Widgets";
 import { useRecoilState } from "recoil";
 import { modalState, modalTypeState } from "../atoms/modalAtom";
 import { connectToDatabase } from "../util/mongodb";
 
-export default function Home({ posts }) {
+export default function Home({ posts, articles }) {
   const router = useRouter();
   const { status } = useSession({
     required: true,
@@ -37,14 +38,13 @@ export default function Home({ posts }) {
           <Sidebar />
           <Feed posts={posts} />
         </div>
-        {/* widgets */}
+        <Widgets articles={articles} />
         <AnimatePresence>
           {modalOpen && (
             <Modal handleClose={() => setModalOpen(false)} type={modalType} />
           )}
         </AnimatePresence>
       </main>
-      {/* footer */}
     </div>
   );
 }
@@ -69,10 +69,14 @@ export const getServerSideProps = async (context) => {
     .toArray();
 
   // get google api news:
+  const results = await fetch(
+    `https://newsapi.org/v2/top-headlines?country=in&apiKey=${process.env.NEWS_API_KEY}`
+  ).then((res) => res.json());
 
   return {
     props: {
       session,
+      articles: results.articles,
       posts: posts.map((post) => ({
         _id: post._id.toString(),
         input: post.input,
