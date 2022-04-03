@@ -5,10 +5,10 @@ import { modalState } from "../atoms/modalAtom";
 import { handlePostState } from "../atoms/postAtom";
 
 const Form = () => {
-  const [modalOpen, setModalOpen] = useRecoilState(modalState);
   const [input, setInput] = useState("");
   const [photoUrl, setPhotoUrl] = useState("");
   const [handlePost, setHandlePost] = useRecoilState(handlePostState);
+  const [modalOpen, setModalOpen] = useRecoilState(modalState);
   const { data: session } = useSession();
 
   const uploadPost = async (e) => {

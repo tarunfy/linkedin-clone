@@ -10,7 +10,7 @@ import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import ReplyRoundedIcon from "@mui/icons-material/ReplyRounded";
 import CommentOutlinedIcon from "@mui/icons-material/CommentOutlined";
 import { modalState, modalTypeState } from "../atoms/modalAtom";
-// import TimeAgo from "timeago-react";
+import TimeAgo from "timeago-react";
 import { useSession } from "next-auth/react";
 
 const Post = ({ post, modalPost }) => {
@@ -19,13 +19,23 @@ const Post = ({ post, modalPost }) => {
   const [postState, setPostState] = useRecoilState(getPostState);
   const [showInput, setShowInput] = useState(false);
   const [liked, setLiked] = useState(false);
+  const [handlePost, setHandlePost] = useRecoilState(handlePostState);
 
   const { data: session } = useSession();
 
   const truncate = (string, n) =>
     string?.length > n ? string.substr(0, n - 1) + "...see more" : string;
 
-  const deletePost = () => {};
+  const deletePost = async () => {
+    const response = await fetch(`/api/posts/${post._id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    setHandlePost(true);
+    setModalOpen(false);
+  };
 
   return (
     <div
@@ -40,6 +50,10 @@ const Post = ({ post, modalPost }) => {
             {post.username}
           </h6>
           <p className="text-sm dark:text-white/75 opacity-80">{post.email}</p>
+          <TimeAgo
+            datetime={post.createdAt}
+            className="text-xs dark:text-white/75 opacity-80"
+          />
         </div>
         {modalPost ? (
           <IconButton onClick={() => setModalOpen(false)}>
